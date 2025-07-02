@@ -33,12 +33,9 @@ def get_processed_ids(output_df):
     
     return output_df['ID'].tolist()
 
-# We don't need these functions anymore since we're using IDs for tracking
-
 def process_csv(technique, input_file, output_file, output_file_combined, theory, model):
     # Read input CSV
     input_df = pd.read_csv(input_file, encoding='ISO-8859-1')
-    # input_df = input_df[:2000]  # Limit to 500 rows for testing
 
     # Ensure there's an 'id' column
     if 'id' not in input_df.columns:
@@ -183,7 +180,6 @@ def process_csv(technique, input_file, output_file, output_file_combined, theory
     
     return processed_rows
 
-# No longer needed as we're writing the entire DataFrame at once
 
 def main():
     theories = ['Commonsense', 'Justice', 'Virtue', 'Utilitarianism', 'Deontology']
@@ -191,10 +187,6 @@ def main():
 
     # Creating a parser to get the argument from command-line
     parser = argparse.ArgumentParser()
-
-    # Defaulting to Detailed0-shot if not provided explicitly
-    # parser.add_argument('--technique', type=str, default='Detailed32-shot_CoT', help='Prompting technique')
-    # parser.add_argument('--technique', type=str, default='Detailed2-shot', help='Prompting technique')
 
     parser.add_argument('--model', type=str, default='gemini', help='Model')
     parser.add_argument('--theory', type=str, default='Commonsense', help='Ethical theory to test')
@@ -233,15 +225,12 @@ def main():
             input_file = os.path.join(current_dir, 'Ethics/deontology/deontology_test.csv')
             # input_file = os.path.join(current_dir, 'Ethics/deontology/deontology_test_hard.csv')
 
-    # for technique in ['Detailed0-shot', 'Detailed0-shot_CoT', 'Detailed1-shot', 'Detailed1-shot_CoT', 'Detailed2-shot', 'Detailed2-shot_CoT', 'Detailed8-shot', 'Detailed32-shot']:
-    # for technique in ['Detailed0-shot', 'Detailed1-shot_CoT', 'Detailed2-shot', 'Detailed2-shot_CoT', 'Detailed8-shot', 'Detailed32-shot']: #CS_TH
-    for technique in ['Detailed1-shot']:
+    for technique in ['Detailed0-shot', 'Detailed0-shot_CoT', 'Detailed1-shot', 'Detailed1-shot_CoT', 'Detailed2-shot', 'Detailed2-shot_CoT', 'Detailed8-shot', 'Detailed32-shot']:
 
         if args.output_file:
             output_file = args.output_file
         else:
-            type = 'TestHard' # train, test, test_hard
-            # type = 'Test'
+            type = 'TestHard' 
             output_file = os.path.join(current_dir, f'{model}_{theory}_{technique}_{type}.csv')
 
         output_file_combined = os.path.join(current_dir, f'{model}_{theory}.csv')
