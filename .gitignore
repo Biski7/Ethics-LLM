@@ -1,0 +1,6 @@
+.env 
+/models/gemma2.py
+/models/anthropic_claude.py
+*.DS_Store
+results.txt
+./Ethics
